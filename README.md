@@ -43,11 +43,11 @@ make: *** [install-recursive] Error 1
 ```
 ### Ugly Workaround
 
-It'll affect just a warning message. ;)
+Patch for ```/usr/local/opt/glib/bin/glib-mkenums```. It'll affect just a warning message. ;)
 
 ```
---- glib-mkenums.orig	2018-01-27 10:57:22.000000000 -0200
-+++ glib-mkenums	2018-01-27 10:55:34.000000000 -0200
+--- /usr/local/opt/glib/bin/glib-mkenums.orig	2018-01-27 10:57:22.000000000 -0200
++++ /usr/local/opt/glib/bin/glib-mkenums	2018-01-27 10:55:34.000000000 -0200
 @@ -90,7 +90,7 @@ def replace_and_warn(err):
      # 7 characters of context either side of the offending character
      print_warning('UnicodeWarning: {} at {} ({})'.format(
