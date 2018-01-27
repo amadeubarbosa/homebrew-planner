@@ -15,13 +15,13 @@ Now, you can install GNOME Planner as simple as that:
 
 ```brew install gnome-planner```
 
-# Dependencies
+## Dependencies
 
 I used another *great* tap repository for libgnomeui from [aisipos/libgnomeui](http://github.com/aisipos/libgnomeui).
 
-# Limitations
+## Limitations
 
-## Workaround for unresolved bug of GLib
+### GLib utf-8 encoding bug
 
 The GLib used in brew still have a bug about utf-8 encoding of text files. As following:
 ```
@@ -41,7 +41,7 @@ make[1]: *** Waiting for unfinished jobs....
 make[1]: *** [libgnometypebuiltins.c] Error 1
 make: *** [install-recursive] Error 1
 ```
-### Ugly Workaround
+#### Ugly workaround
 
 Patch for ```/usr/local/opt/glib/bin/glib-mkenums```. It'll affect just a warning message. ;)
 
@@ -59,11 +59,11 @@ Patch for ```/usr/local/opt/glib/bin/glib-mkenums```. It'll affect just a warnin
  codecs.register_error('replace_and_warn', replace_and_warn)
 ```
 
-### Probably best solution
+#### Probably best solution
 
-https://github.com/openembedded/openembedded-core/commit/61af0b446f104c99589cd4473040ca700dba3ff3
+Let me know if it works: https://github.com/openembedded/openembedded-core/commit/61af0b446f104c99589cd4473040ca700dba3ff3
 
-## Python plugins
+### Python plugins deactivated
 
 Python plugins are deactivated by default (```./configure --enable-python=no```) because I have no success specifying proper python path to original ```./configure```of gnome-planner. Patches are welcome. 
 
