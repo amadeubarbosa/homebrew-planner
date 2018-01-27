@@ -15,6 +15,6 @@ Now, you can install GNOME Planner as simple as that:
 
 ```brew install gnome-planner```
 
-# Warnings
+# Dependencies
 
-I used another *great* tap repository for libgnomeui from (aisipos/libgnomeui)[http://github.com/aisipos/libgnomeui].
+I used another *great* tap repository for libgnomeui from [aisipos/libgnomeui](http://github.com/aisipos/libgnomeui).
