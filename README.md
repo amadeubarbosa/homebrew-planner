@@ -89,7 +89,9 @@ configure: error: cannot find Python library path
 
 Planner depends on GConf. GConf depends on DBus. DBus could be not running in your user session in MacOSX systems as should. In my case I got the following error messages:
 ```
-GConf Error: Failed to contact configuration server; the most common cause is a missing or misconfigured D-Bus session bus daemon. See http://projects.gnome.org/gconf/ for information. (Details -  1: Failed to get connection to session: Could not connect: No such file or directory)
+GConf Error: Failed to contact configuration server; the most common cause is a missing 
+or misconfigured D-Bus session bus daemon. See http://projects.gnome.org/gconf/ for
+information. (Details -  1: Failed to get connection to session: Could not connect: No such file or directory)
 ```
 
 In my scenario I found a workaround:
