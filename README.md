@@ -19,7 +19,7 @@ Now, you can install GNOME Planner as simple as that:
 
 I used another *great* tap repository for libgnomeui from [aisipos/libgnomeui](http://github.com/aisipos/libgnomeui).
 
-## Limitations
+## Troubleshooting
 
 ### GLib utf-8 encoding bug
 
@@ -84,3 +84,38 @@ find: /usr//sbin/authserver: Permission denied
 
 configure: error: cannot find Python library path
 ```
+
+### DBus daemon not running
+
+Planner depends on GConf. GConf depends on DBus. DBus could be not running in your user session in MacOSX systems as should. In my case I got the following error messages:
+```
+GConf Error: Failed to contact configuration server; the most common cause is a missing or misconfigured D-Bus session bus daemon. See http://projects.gnome.org/gconf/ for information. (Details -  1: Failed to get connection to session: Could not connect: No such file or directory)
+```
+
+In my scenario I found a workaround:
+
+1. I modified DBus ``plist`` installed by Homebrew to force dbus runs at session load:
+```
+--- /usr/local/Cellar/d-bus/1.12.2/org.freedesktop.dbus-session.plist.orig	2018-01-29 05:44:25.000000000 -0200
++++ /usr/local/Cellar/d-bus/1.12.2/org.freedesktop.dbus-session.plist	2018-01-29 05:44:09.000000000 -0200
+@@ -12,6 +12,9 @@
+ 		<string>--session</string>
+ 	</array>
+ 
++	<key>RunAtLoad</key>
++	<true/>
++
+ 	<key>Sockets</key>
+ 	<dict>
+ 		<key>unix_domain_listener</key>
+```
+2. I put some configuration in my ``.bashrc`` to force DBus dependent processes to recognize DBus address:
+```
+DBUS_LAUNCHD_SESSION_BUS_SOCKET=$(launchctl getenv DBUS_LAUNCHD_SESSION_BUS_SOCKET)
+if [ "no$DBUS_LAUNCHD_SESSION_BUS_SOCKET" != "no" ]; then
+  export DBUS_SESSION_BUS_ADDRESS="unix:path=$DBUS_LAUNCHD_SESSION_BUS_SOCKET"
+  export DBUS_SESSION_BUS_PID=$(ps -o pid,user,comm -x|awk "/$USER/ && /dbus/ {print \$1}")
+fi
+unset DBUS_LAUNCHD_SESSION_BUS_SOCKET
+```
+This should not be necessary since the processes should ask ``launchctl getenv DBUS_LAUNCHD_SESSION_BUS_SOCKET`` when DBUS_SESSION_BUS_ADDRESS is missing. There's a bug somehow in dbus libraries under MacOSX.
